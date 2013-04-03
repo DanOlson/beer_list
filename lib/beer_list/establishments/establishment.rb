@@ -1,7 +1,7 @@
 module BeerList
   module Establishments
     class Establishment
-      attr_accessor :scraper, :page
+      attr_accessor :scraper, :page, :list
 
       def set_scraper(scraper)
         @scraper = scraper

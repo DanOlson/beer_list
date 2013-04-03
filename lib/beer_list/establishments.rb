@@ -7,5 +7,6 @@ module BeerList
     require 'establishments/groveland_tap'
     require 'establishments/edina_grill'
     require 'establishments/longfellow_grill'
+    require 'establishments/muddy_waters'
   end
 end
