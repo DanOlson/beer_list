@@ -1,24 +1,28 @@
-class Scraper
-  attr_reader :agent, :url, :page
+module BeerList
+  class Scraper
+    attr_reader :agent, :url, :page
 
-  USER_AGENT = 'Mac Safari'
-  
-  def initialize(url)
-    @url   = url
-    @agent = Mechanize.new
-    post_init
-  end
+    USER_AGENT = 'Mac Safari'
 
-  def post_init
-    set_user_agent
-    visit_site
-  end
+    def initialize
+      @agent = Mechanize.new
+      set_user_agent
+    end
 
-  def visit_site
-    @page = agent.get(url)
-  end
+    def beer_list(establishment)
+      establishment.set_scraper self
+      visit_site establishment
+      establishment.to_json
+    end
 
-  def set_user_agent
-    agent.user_agent_alias = USER_AGENT
+    private
+
+    def visit_site(establishment)
+      establishment.page = agent.get(establishment.url)
+    end
+
+    def set_user_agent
+      agent.user_agent_alias = USER_AGENT
+    end
   end
 end
