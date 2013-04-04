@@ -51,9 +51,7 @@ module BeerList
       class_name = method.to_s.split('_').map(&:capitalize).join
       begin
         klass = ['BeerList', 'Establishments', class_name].compact.inject(Object){ |o, name| o.const_get(name) }
-        establishment = klass.new
-        establishments << establishment
-        scraper.beer_list establishment
+        scraper.beer_list klass.new
       rescue NameError
         super method, *args, &block
       end
