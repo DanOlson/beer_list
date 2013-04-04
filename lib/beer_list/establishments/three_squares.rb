@@ -4,7 +4,7 @@ module BeerList
       URL = 'http://www.3squaresrestaurant.com/beer_taps.php'
 
       def get_list
-        @list = page.at('ul').text.split("\r\n")
+        page.at('ul').text.split("\r\n")
       end
 
       def url

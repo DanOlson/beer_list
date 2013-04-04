@@ -7,7 +7,7 @@ module BeerList
       def get_list
         get_base_list
         process_base_list
-        @list
+        @my_list
       end
 
       def url
@@ -17,7 +17,7 @@ module BeerList
       private
 
       def get_base_list
-        @list = page.search('li span').map(&:text)
+        @my_list = page.search('li span').map(&:text)
       end
 
       def process_base_list
@@ -27,15 +27,15 @@ module BeerList
       end
 
       def remove_not_applicable
-        @list = @list.reject{ |e| e.match(/\A\s+\Z|\A\((.*)\)/) }
+        @my_list = @my_list.reject{ |e| e.match(/\A\s+\Z|\A\((.*)\)/) }
       end
 
       def remove_special_chars
-        @list = @list.map(&:strip).map{ |e| e.gsub(/\u00a0/, '') }
+        @my_list = @my_list.map(&:strip).map{ |e| e.gsub(/\u00a0/, '') }
       end
 
       def trim_list_items
-        @list = @list.map{ |e| e.gsub(STATE_AND_PRICE_REGEX, '') }.uniq
+        @my_list = @my_list.map{ |e| e.gsub(STATE_AND_PRICE_REGEX, '') }.uniq
       end
     end
   end

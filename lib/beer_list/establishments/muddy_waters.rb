@@ -4,7 +4,7 @@ module BeerList
       URL = 'http://muddywatersmpls.com/booze.html'
 
       def get_list
-        @list = get_processed_list
+        get_processed_list
       end
 
       def url
