@@ -12,7 +12,7 @@ module BeerList
     def beer_list(establishment)
       establishment.set_scraper self
       visit_site establishment
-      establishment.to_json
+      establishment.list
     end
 
     private

@@ -6,9 +6,15 @@ A utility for retrieving the beer list from various establishments
 
 `require 'beer_list'`
 
-See what's on tap (as JSON):
+See what's on tap:
 
 ```
-BeerList.groveland_tap
-BeerList.muddy_waters
+# An array-like object
+list = BeerList.groveland_tap
+
+# As a hash
+list.to_hash
+
+# As JSON
+list.to_json
 ```
