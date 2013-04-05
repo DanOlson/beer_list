@@ -3,10 +3,6 @@ module BeerList
     class Establishment
       attr_accessor :scraper, :page
 
-      def set_scraper(scraper)
-        @scraper = scraper
-      end
-
       def list
         raise BeerList::NoScraperError unless @scraper
         @list ||= BeerList::List.new get_list, short_class_name

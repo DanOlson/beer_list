@@ -7,14 +7,30 @@ module BeerList
       let(:establishment){ BeerList::Establishments::Establishment.new }
 
       describe '#list' do
-        it "raises an exception if it doesn't have a scraper" do
-          expect { establishment.list }.to raise_error(NoScraperError)
+        context "when it doesn't have a scraper" do
+          it "raises an exception" do
+            expect { establishment.list }.to raise_error(NoScraperError)
+          end
+        end
+
+        context 'when it has a scraper' do
+
+          before do
+            establishment.scraper = stub
+          end
+
+          it 'returns a BeerList::List' do
+            establishment.stub(:get_list){ [] }
+            establishment.list.should be_an_instance_of BeerList::List
+          end
         end
       end
 
       describe '#get_list' do
-        it 'raises an exception unless it is implemented in a subclass' do
-          expect { establishment.get_list }.to raise_error
+        context 'when it is not implemented in a subclass' do
+          it 'raises an exception' do
+            expect { establishment.get_list }.to raise_error
+          end
         end
       end
 

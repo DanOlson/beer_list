@@ -10,7 +10,7 @@ module BeerList
     end
 
     def beer_list(establishment)
-      establishment.set_scraper self
+      establishment.scraper = self
       visit_site establishment
       establishment.list
     end
