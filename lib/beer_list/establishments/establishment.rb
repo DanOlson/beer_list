@@ -8,11 +8,12 @@ module BeerList
       end
 
       def list
+        raise BeerList::NoScraperError unless @scraper
         @list ||= BeerList::List.new get_list, short_class_name
       end
 
-      def to_json
-        JSON.dump(self.class.name => get_list)
+      def get_list
+        raise "#{__method__} is not implemented in #{self.class.name}"
       end
 
       def url
