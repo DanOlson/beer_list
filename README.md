@@ -4,7 +4,7 @@ A utility for retrieving the beer list from various establishments
 
 ## Usage
 
-`gem install beer_list
+`gem install beer_list`
 
 or in your gemfile:
 
