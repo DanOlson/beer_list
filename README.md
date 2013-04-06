@@ -4,6 +4,13 @@ A utility for retrieving the beer list from various establishments
 
 ## Usage
 
+`gem install beer_list
+
+or in your gemfile:
+
+`gem 'beer_list'`
+
+
 `require 'beer_list'`
 
 ### Getting a List
