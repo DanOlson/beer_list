@@ -35,8 +35,11 @@ the desired establishments in BeerList.establishments:
 three_squares = BeerList::Establishments::ThreeSquares.new
 muddy_waters  = BeerList::Establishments::MuddyWaters.new
 
-BeerList.establishments << three_squares
-BeerList.establishments << muddy_waters
+# Register establishments
+BeerList.add_establishments(three_squares, muddy_waters)
+
+# See your registered establishments
+BeerList.establishments
 
 # Array of BeerList::List objects
 BeerList.lists
