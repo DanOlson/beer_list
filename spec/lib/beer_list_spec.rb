@@ -4,31 +4,82 @@ describe BeerList do
   let(:establishment){ BeerList::Establishments::ThreeSquares.new }
 
   describe '.establishments' do
+
+    after(:each) do
+      BeerList.clear_establishments!
+    end
+
     it 'returns an array' do
       BeerList.establishments.should be_an_instance_of Array
     end
+  end
 
-    it 'stores establishments' do
-      BeerList.establishments << establishment
-      BeerList.establishments.should_not be_empty
+  describe '.add_establishment' do
+    let(:muddy_waters){ BeerList::Establishments::MuddyWaters.new }
+
+    after(:each) do
+      BeerList.clear_establishments!
+    end
+
+    it 'appends to establishments' do
+      BeerList.add_establishment establishment
+      BeerList.establishments.should include establishment
+    end
+
+    it 'accepts multiple establishments' do
+      BeerList.add_establishment establishment, muddy_waters
+      BeerList.establishments.size.should == 2
+    end
+
+    it 'rejects invalid input' do
+      BeerList.add_establishment muddy_waters, Object.new
+      BeerList.establishments.size.should == 1
+    end
+
+    it 'can be called multiple times' do
+      BeerList.add_establishment muddy_waters
+      BeerList.add_establishment establishment
+      BeerList.establishments.size.should == 2
+    end
+  end
+
+  describe '.clear_establishments!' do
+
+    shared_examples_for 'clear_establishments!' do
+      it 'should empty the collection' do
+        BeerList.clear_establishments!
+        BeerList.establishments.should be_empty
+      end
+    end
+
+    context 'when establishments are registered' do
+      before do
+        BeerList.add_establishment establishment
+      end
+
+      it_behaves_like 'clear_establishments!'
+    end
+
+    context 'when no establishments are registered' do
+      it_behaves_like 'clear_establishments!'
     end
   end
 
   describe '.lists' do
     context 'when no establishments are registered' do
       it 'should raise an error' do
-        BeerList.establishments.clear
+        BeerList.clear_establishments!
         expect { BeerList.lists }.to raise_error(BeerList::NoEstablishmentsError)
       end
     end
 
     context 'when establishments are registered' do
       before(:all) do
-        BeerList.establishments << establishment
+        BeerList.add_establishments establishment
       end
 
       after(:all) do
-        BeerList.establishments.clear
+        BeerList.clear_establishments!
       end
 
       before do

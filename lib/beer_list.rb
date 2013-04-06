@@ -10,8 +10,20 @@ module BeerList
   class << self
 
     def establishments
-      @establishments ||= []
+      return [] if @establishments.nil?
+      @establishments.dup
     end
+
+    def clear_establishments!
+      @establishments.clear if @establishments
+    end
+
+    def add_establishment(*args)
+      args.each do |e|
+        _establishments << e if e.respond_to?(:get_list)
+      end
+    end
+    alias :add_establishments :add_establishment
 
     def lists
       raise NoEstablishmentsError if establishments.empty?
@@ -40,6 +52,10 @@ module BeerList
 
     def update_necessary?
       !@lists || !establishments_eq_lists?
+    end
+
+    def _establishments
+      @establishments ||= []
     end
 
     def establishments_eq_lists?
