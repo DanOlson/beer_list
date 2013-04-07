@@ -41,7 +41,8 @@ BeerList.add_establishments(three_squares, muddy_waters)
 # See your registered establishments
 BeerList.establishments
 
-# Array of BeerList::List objects
+# Get the beer lists at your registered establishments.
+# as an array of BeerList::List objects
 BeerList.lists
 
 # As a hash
