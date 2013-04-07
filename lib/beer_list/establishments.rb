@@ -8,5 +8,8 @@ module BeerList
     require 'establishments/edina_grill'
     require 'establishments/longfellow_grill'
     require 'establishments/muddy_waters'
+    require 'establishments/bulldog_northeast'
+    require 'establishments/bulldog_lowertown'
+    require 'establishments/bulldog_uptown'
   end
 end

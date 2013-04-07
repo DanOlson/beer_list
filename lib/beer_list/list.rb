@@ -4,7 +4,7 @@ module BeerList
 
     def initialize(ary, establishment)
       @establishment = establishment
-      super ary
+      super ary.sort
     end
 
     def to_hash
