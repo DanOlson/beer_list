@@ -6,6 +6,8 @@ module BeerList
   require 'beer_list/establishments'
   require 'beer_list/list'
   require 'beer_list/exceptions'
+  require 'generators/establishment_generator'
+  require 'ext/string'
 
   class << self
 

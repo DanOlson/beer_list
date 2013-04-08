@@ -1,0 +1,15 @@
+module BeerList
+  module Establishments
+    class <%= @klass %> < Establishment
+      URL = '<%= @url %>'
+
+      def get_list
+        # page.search('<%= @selector %>').map(&:text)
+      end
+
+      def url
+        URL
+      end
+    end
+  end
+end
