@@ -7,5 +7,11 @@ module BeerList
     Dir[File.dirname(__FILE__) + '/establishments/*.rb'].each do |f|
       require f.split('.rb').first
     end
+
+    if BeerList.establishments_dir
+      Dir[File.dirname(BeerList.establishments_dir) + '/*.rb'].each do |f|
+        require f.split('.rb').first
+      end
+    end
   end
 end

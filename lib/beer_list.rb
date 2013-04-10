@@ -3,14 +3,22 @@ require 'json'
 
 module BeerList
   require 'beer_list/scraper'
-  require 'beer_list/establishments'
   require 'beer_list/list'
   require 'beer_list/exceptions'
   require 'beer_list/cli'
   require 'generators/establishment_generator'
   require 'ext/string'
+  autoload :Establishments, 'beer_list/establishments'
 
   class << self
+
+    def establishments_dir
+      @establishments_dir
+    end
+
+    def establishments_dir=(directory)
+      @establishments_dir = directory
+    end
 
     def establishments
       return [] if @establishments.nil?
@@ -67,6 +75,7 @@ module BeerList
     end
 
     def method_missing(method, *args, &block)
+      super if defined? Rails
       class_name = method.to_s.split('_').map(&:capitalize).join
       begin
         klass = ['BeerList', 'Establishments', class_name].compact.inject(Object){ |o, name| o.const_get(name) }

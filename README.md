@@ -97,8 +97,14 @@ For all options you can pass to beer_list establish, run:
 ### Using Your Generated Establishments
 
 So you've written some pretty bad-ass scrapers now, and you're ready to actually
-use the fruit of your labor in a real application. You'll need to either register your
-establishments with BeerList, or call them directly:
+use the fruit of your labor in a real application. You'll need to tell BeerList
+about the generated files so that it can require them. If you're using Rails, add
+the following code in an initializer:
+
+`BeerList.establishments_dir = File.join(Rails.root, 'path/to/establishments')`
+
+When using Rails, you'll need to register your establishments with BeerList.
+Unfortunately, you can't call them directly (I'm working on it):
 
 ```
 BeerList.add_establishment(BeerList::Establishments::Applebirds.new)
@@ -106,10 +112,9 @@ BeerList.add_establishment(BeerList::Establishments::Applebirds.new)
 # fetch all your lists, including the one at Applebirds
 BeerList.lists
 
-# fetch only Applebirds
-list = BeerList.applebirds
+# Unsupported in Rails (for now)
+BeerList.applebirds
 
-# do something with list
 ```
 
 See [Getting A List](https://github.com/DanOlson/beer_list#getting-a-list) for more details.
