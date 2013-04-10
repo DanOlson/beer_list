@@ -10,6 +10,7 @@ or in your gemfile:
 
 `gem 'beer_list'`
 
+then require the gem:
 
 `require 'beer_list'`
 
@@ -62,7 +63,7 @@ to easily create your own.
 
 For example:
 
-`beer_list establish Applebirds -u http://applebirds.com/beers -p p.beer -d path/to/establishments`
+`beer_list establish Applebirds -u http://applebirds.com/beers -d path/to/establishments`
 
 will create the following code in path/to/establishments/applebirds.rb
 
@@ -77,7 +78,7 @@ module BeerList
       #
       # Uncomment and implement to your liking.
       def get_list
-        # page.search('p.beer').map(&:text)
+        # page.search('.selector').map(&:text)
       end
 
       def url
@@ -86,6 +87,7 @@ module BeerList
     end
   end
 end
+
 ```
 
 For all options you can pass to beer_list establish, run:
