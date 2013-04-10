@@ -6,6 +6,7 @@ module BeerList
   require 'beer_list/establishments'
   require 'beer_list/list'
   require 'beer_list/exceptions'
+  require 'beer_list/cli'
   require 'generators/establishment_generator'
   require 'ext/string'
 

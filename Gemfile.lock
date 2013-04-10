@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    beer_list (0.0.2)
+    beer_list (0.0.2.1)
       mechanize (= 2.6.0)
 
 GEM

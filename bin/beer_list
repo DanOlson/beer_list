@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+bin_file = File.realpath(__FILE__)
+$:.unshift File.expand_path('../../lib', bin_file)
+
+require 'beer_list'
+require 'optparse'
+
+def parse(args)
+  # TODO: defaults
+  options = {}
+
+  opts = OptionParser.new do |opts|
+    opts.on("-u", "--url [URL]", "url of your establishment's beer list") do |url|
+      options[:url] = url
+    end
+
+    opts.on("-s", "--selector [SELECTOR]", "selector to use for scraping") do |s|
+      options[:selector] = s
+    end
+  end
+
+  opts.parse! args
+  options
+end
+
+options = parse ARGV
+
+msg, klass = ARGV.shift(2)
+BeerList::CLI.new(options).public_send(msg, klass)

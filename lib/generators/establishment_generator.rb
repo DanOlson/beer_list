@@ -8,10 +8,11 @@ module BeerList
     TEMPLATE_FILE = File.expand_path('../templates/establishment.erb', __FILE__)
     ESTABLISHMENTS_DIR = File.expand_path('../../beer_list/establishments', __FILE__)
 
-    def initialize(args={})
-      @klass    = args[:klass]
+    def initialize(klass, args={})
+      @klass    = klass
       @url      = args[:url] || DEFAULT_URL
       @selector = args[:selector] || '.selector'
+      write_file
     end
 
     def write_file
