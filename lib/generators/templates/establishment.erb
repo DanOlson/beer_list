@@ -3,6 +3,10 @@ module BeerList
     class <%= @klass %> < Establishment
       URL = '<%= @url %>'
 
+      # Handles parsing and manipulating a Mechanize::Page object
+      # in order to scrape the contents of your beer list.
+      #
+      # Uncomment and implement to your liking.
       def get_list
         # page.search('<%= @selector %>').map(&:text)
       end

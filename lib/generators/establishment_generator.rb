@@ -2,18 +2,20 @@ require 'erb'
 
 module BeerList
   class EstablishmentGenerator
-    attr_reader :klass, :url, :selector
     
-    DEFAULT_URL   = 'http://yourestablishment.com/path/to/the/beer_list'
-    TEMPLATE_FILE = File.expand_path('../templates/establishment.erb', __FILE__)
+    DEFAULT_URL        = 'http://yourestablishment.com/path/to/the/beer_list'
+    TEMPLATE_FILE      = File.expand_path('../templates/establishment.erb', __FILE__)
     ESTABLISHMENTS_DIR = File.expand_path('../../beer_list/establishments', __FILE__)
 
     def initialize(klass, args={})
-      @klass    = klass
-      @url      = args[:url] || DEFAULT_URL
-      @selector = args[:selector] || '.selector'
+      @klass     = klass
+      @url       = args[:url] || DEFAULT_URL
+      @selector  = args[:selector] || '.selector'
+      @directory = args[:dir] || ESTABLISHMENTS_DIR
       write_file
     end
+
+    private
 
     def write_file
       File.open(filepath, 'w+') do |f|
@@ -26,7 +28,7 @@ module BeerList
     end
 
     def filepath
-      File.join ESTABLISHMENTS_DIR, "#{klass.underscore}.rb"
+      File.join @directory, "#{@klass.underscore}.rb"
     end
   end
 end

@@ -57,21 +57,27 @@ The establishments don't have to be re-scraped each time the list is requested.
 
 ### Extending BeerList with More Establishments
 
-BeerList ships with a limited number of establishments, but it's easy to write your own.
-Your establishment class must inherit from BeerList::Establishments::Establishment,
-and provide two instance methods: `get_list` and `url`. `url` should be the url of the beer list on your establishment's website. `get_list` should handle parsing and 
-manipulating a Mechanize::Page object in order to scrape the contents of your beer list.
+BeerList ships with a limited number of establishments, but also includes an executable
+to easily create your own.
 
 For example:
+
+`beer_list establish Applebirds -u http://applebirds.com/beers -p p.beer -d path/to/establishments`
+
+will create the following code in path/to/establishments/applebirds.rb
 
 ```
 module BeerList
   module Establishments
-    class Applebirds
+    class Applebirds < Establishment
       URL = 'http://applebirds.com/beers'
 
+      # Handles parsing and manipulating a Mechanize::Page object
+      # in order to scrape the contents of your beer list.
+      #
+      # Uncomment and implement to your liking.
       def get_list
-        page.search('p.beer').map(&:text)
+        # page.search('p.beer').map(&:text)
       end
 
       def url
@@ -81,5 +87,31 @@ module BeerList
   end
 end
 ```
+
+For all options you can pass to beer_list establish, run:
+
+`beer_list --help`
+
+### Using Your Generated Establishments
+
+So you've written some pretty bad-ass scrapers now, and you're ready to actually
+use the fruit of your labor in a real application. You'll need to either register your
+establishments with BeerList, or call them directly:
+
+```
+BeerList.add_establishment(BeerList::Establishments::Applebirds.new)
+
+# fetch all your lists, including the one at Applebirds
+BeerList.lists
+
+# fetch only Applebirds
+list = BeerList.applebirds
+
+# do something with list
+```
+
+See [Getting A List](https://github.com/DanOlson/beer_list#getting-a-list) for more details.
+
+AND...
 
 Checkout [This link](http://mechanize.rubyforge.org/) for more on Mechanize
