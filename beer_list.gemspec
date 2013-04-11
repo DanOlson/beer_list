@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'beer_list'
-  spec.version       = '0.1.2'
+  spec.version       = '0.1.3'
   spec.authors       = ['Dan Olson']
   spec.email         = ['olson_dan@yahoo.com']
   spec.description   = 'A utility for retrieving the beer list from various establishments'
