@@ -75,14 +75,9 @@ module BeerList
     end
 
     def method_missing(method, *args, &block)
-      super if defined? Rails
       class_name = method.to_s.split('_').map(&:capitalize).join
-      begin
-        klass = ['BeerList', 'Establishments', class_name].compact.inject(Object){ |o, name| o.const_get(name) }
-        scraper.beer_list klass.new
-      rescue NameError
-        super method, *args, &block
-      end
+      klass = ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
+      scraper.beer_list klass.new
     end
   end
 end

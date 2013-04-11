@@ -103,17 +103,16 @@ the following code in an initializer:
 
 `BeerList.establishments_dir = File.join(Rails.root, 'path/to/establishments')`
 
-When using Rails, you'll need to register your establishments with BeerList.
-Unfortunately, you can't call them directly (I'm working on it):
 
 ```
+# Fetch just the list at Applebirds
+BeerList.applebirds
+
+# Or, register your establishment
 BeerList.add_establishment(BeerList::Establishments::Applebirds.new)
 
-# fetch all your lists, including the one at Applebirds
+# fetch all your registered lists, including the one at Applebirds
 BeerList.lists
-
-# Unsupported in Rails (for now)
-BeerList.applebirds
 
 ```
 

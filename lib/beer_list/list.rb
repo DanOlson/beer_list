@@ -2,8 +2,9 @@ module BeerList
   class List < Array
     attr_reader :establishment
 
-    def initialize(ary, establishment)
-      @establishment = establishment
+    def initialize(opts={})
+      ary            = opts[:array] || []
+      @establishment = opts[:establishment]
       super ary.sort
     end
 

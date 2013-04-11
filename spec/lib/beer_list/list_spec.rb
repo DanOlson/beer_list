@@ -3,7 +3,7 @@ require 'spec_helper'
 module BeerList
   describe List do
     let(:est_name){ 'MuddyWaters' }
-    let(:list){ List.new [], est_name}
+    let(:list){ List.new array: [], establishment: est_name }
 
     it 'knows its establishent' do
       list.establishment.should == est_name
@@ -21,6 +21,12 @@ module BeerList
         expected = "{\"MuddyWaters\":[]}"
         list.to_json.should == expected
       end
+    end
+
+    context 'when array is nil (the establishment has yet to implement #get_list)' do
+      let(:list){ List.new array: nil, establishment: est_name }
+
+      it { list.should be_empty }
     end
   end
 end

@@ -9,7 +9,7 @@ module BeerList
     end
 
     if BeerList.establishments_dir
-      Dir[File.dirname(BeerList.establishments_dir) + '/*.rb'].each do |f|
+      Dir[File.join(BeerList.establishments_dir, '*.rb')].each do |f|
         require f.split('.rb').first
       end
     end

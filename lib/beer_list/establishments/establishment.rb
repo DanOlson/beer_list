@@ -5,7 +5,7 @@ module BeerList
 
       def list
         raise BeerList::NoScraperError unless @scraper
-        @list ||= BeerList::List.new get_list, short_class_name
+        @list ||= BeerList::List.new establishment: short_class_name, array: get_list
       end
 
       def get_list
