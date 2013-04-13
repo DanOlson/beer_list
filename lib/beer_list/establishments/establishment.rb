@@ -1,10 +1,10 @@
 module BeerList
   module Establishments
     class Establishment
-      attr_accessor :scraper, :page
+      attr_accessor :page
 
       def list
-        raise BeerList::NoScraperError unless @scraper
+        visit_page unless page
         @list ||= BeerList::List.new establishment: short_class_name, array: get_list
       end
 
@@ -18,6 +18,12 @@ module BeerList
 
       def short_class_name
         self.class.name.split('::').last
+      end
+
+      private
+
+      def visit_page
+        BeerList.scraper.visit(self)
       end
     end
   end

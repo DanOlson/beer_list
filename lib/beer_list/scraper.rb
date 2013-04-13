@@ -1,6 +1,8 @@
+require 'singleton'
+
 module BeerList
   class Scraper
-    attr_reader :agent, :url, :page
+    include Singleton
 
     USER_AGENT = 'Mac Safari'
 
@@ -10,19 +12,18 @@ module BeerList
     end
 
     def beer_list(establishment)
-      establishment.scraper = self
-      visit_site establishment
+      visit establishment
       establishment.list
+    end
+
+    def visit(visitable)
+      visitable.page = @agent.get(visitable.url)
     end
 
     private
 
-    def visit_site(establishment)
-      establishment.page = agent.get(establishment.url)
-    end
-
     def set_user_agent
-      agent.user_agent_alias = USER_AGENT
+      @agent.user_agent_alias = USER_AGENT
     end
   end
 end
