@@ -55,11 +55,11 @@ module BeerList
       lists_as_hash.to_json
     end
 
-    private
-
     def scraper
-      @scraper ||= Scraper.new
+      @scraper ||= Scraper.instance
     end
+
+    private
 
     def update_necessary?
       !@lists || !establishments_eq_lists?
