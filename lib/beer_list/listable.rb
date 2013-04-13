@@ -7,6 +7,14 @@ module BeerList
       @list ||= BeerList::List.new establishment: short_class_name, array: get_list
     end
 
+    def short_class_name
+      raise NotImplementedError
+    end
+
+    def get_list
+      raise NotImplementedError
+    end
+
     private
 
     def visit_page
