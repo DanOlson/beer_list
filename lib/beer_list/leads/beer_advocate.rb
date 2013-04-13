@@ -4,9 +4,11 @@ module BeerList
       include BeerList::Listable
 
       BEERFLY = 'http://beeradvocate.com/beerfly/list'
+      LEAD_INDICATOR_TEXT = 'official website'
 
       def links
-        @links ||= page.links_with(:text => 'official website').map(&:href)
+        @links ||= []
+        pages
       end
       alias :get_list :links
 
@@ -15,6 +17,16 @@ module BeerList
       end
 
       private
+
+      def pages
+        @links += page.links_with(:text => LEAD_INDICATOR_TEXT).map(&:href)
+
+        if next_link = page.links_with(:text => /next/).first
+          self.page = next_link.click
+          pages
+        end
+        @links
+      end
 
       def short_class_name
         self.class.name.split('::').last
