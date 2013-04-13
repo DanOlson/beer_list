@@ -29,6 +29,21 @@ list.to_hash
 list.to_json
 ```
 
+### Establishments
+
+Establishments peddle delicious beers. You're interested in which delicious beers a
+given establishment is peddling. To do that, you need one or more BeerList::Establishments.
+BeerList ships with a limited number of establishments, but its easy to [extend BeerList](https://github.com/DanOlson/beer_list#extending-beerlist-with-more-establishments) with more.
+
+First, let's try one out of the box:
+
+```
+bulldog_northeast = BeerList::Establishments::BulldogNortheast.new
+
+# Now get the list
+bulldog_northeast.list
+```
+
 You may want to get lists for more than one establishment at a time. To do so, register
 the desired establishments in BeerList.establishments:
 
@@ -47,10 +62,10 @@ BeerList.establishments
 BeerList.lists
 
 # As a hash
-BeerList.list_as_hash
+BeerList.lists_as_hash
 
 # As JSON
-BeerList.list_as_json
+BeerList.lists_as_json
 ```
 
 The Lists will be memoized until the content of BeerList.establishments changes so that
@@ -58,8 +73,7 @@ The establishments don't have to be re-scraped each time the list is requested.
 
 ### Extending BeerList with More Establishments
 
-BeerList ships with a limited number of establishments, but also includes an executable
-to easily create your own.
+BeerList includes an executable to easily create your own establishments.
 
 For example:
 
