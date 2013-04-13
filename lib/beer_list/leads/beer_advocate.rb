@@ -1,27 +1,22 @@
 module BeerList
   module Leads
-    class BeerAdvocateScraper
-      attr_reader :page
+    class BeerAdvocate
+      include BeerList::Listable
 
       BEERFLY = 'http://beeradvocate.com/beerfly/list'
-
-      def initialize
-        @agent = Mechanize.new
-        @agent.user_agent = 'Mac Safari'
-        @page  = @agent.get url
-      end
 
       def links
         @links ||= page.links_with(:text => 'official website').map(&:href)
       end
+      alias :get_list :links
+
+      def url
+        "#{BEERFLY}?c_id=US&s_id=#{short_class_name}&bar=Y"
+      end
 
       private
 
-      def url
-        "#{BEERFLY}?c_id=US&s_id=#{short_name}&bar=Y"
-      end
-
-      def short_name
+      def short_class_name
         self.class.name.split('::').last
       end
     end
@@ -78,7 +73,7 @@ module BeerList
       WI
       WY
     }.each do |state|
-      const_set state, Class.new(BeerAdvocateScraper)
+      const_set state, Class.new(BeerAdvocate)
     end
   end
 end

@@ -8,7 +8,8 @@ module BeerList
   require 'beer_list/cli'
   require 'generators/establishment_generator'
   require 'ext/string'
-  require 'beer_list/leads/beer_advocate_scraper'
+  require 'beer_list/listable'
+  require 'beer_list/leads/beer_advocate'
   autoload :Establishments, 'beer_list/establishments'
 
   class << self
