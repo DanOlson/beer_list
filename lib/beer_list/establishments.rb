@@ -1,17 +1,11 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-
 module BeerList
   module Establishments
-    require 'establishments/establishment'
+    require 'beer_list/establishments/establishment.rb'
 
-    Dir[File.dirname(__FILE__) + '/establishments/*.rb'].each do |f|
-      require f.split('.rb').first
-    end
+    Dir[File.dirname(__FILE__) + '/establishments/*.rb'].each { |f| require f }
 
     if BeerList.establishments_dir
-      Dir[File.join(BeerList.establishments_dir, '*.rb')].each do |f|
-        require f.split('.rb').first
-      end
+      Dir[File.join(BeerList.establishments_dir, '*.rb')].each { |f| require f }
     end
   end
 end
