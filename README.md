@@ -32,8 +32,9 @@ list.to_json
 ### Establishments
 
 Establishments peddle delicious beers. You're interested in which delicious beers a
-given establishment is peddling. To do that, you need one or more BeerList::Establishments.
-BeerList ships with a limited number of establishments, but its easy to [extend BeerList](https://github.com/DanOlson/beer_list#extending-beerlist-with-more-establishments) with more.
+given establishment is peddling. To reconcile this situation, you need one or more 
+BeerList::Establishments. BeerList ships with a limited number of establishments, 
+but its easy to [extend BeerList](https://github.com/DanOlson/beer_list#extending-beerlist-with-more-establishments) with more.
 
 First, let's try one out of the box:
 
