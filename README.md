@@ -136,3 +136,26 @@ See [Getting A List](https://github.com/DanOlson/beer_list#getting-a-list) for m
 AND...
 
 Checkout [This link](http://mechanize.rubyforge.org/) for more on Mechanize
+
+### Leads
+
+If you're out of ideas on what establishments you may want lists for, fear not: BeerList can
+give you some ideas.
+
+```
+# You might be interested in good beer bars located in California:
+cali = BeerList::Leads::CA.new
+
+# returns a BeerList::List of URLs for popular beer bars in California
+cali.list
+
+
+# Maybe you want Wisconsin:
+wi = BeerList::Leads:WI.new
+
+wi.list
+
+```
+
+So far, support for this feature is limited to the United States. Hopefully, I can expand
+it in the not-too-distant future.
