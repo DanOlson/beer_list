@@ -78,7 +78,7 @@ BeerList includes an executable to easily create your own establishments.
 
 For example:
 
-`beer_list establish Applebirds -u http://applebirds.com/beers -d path/to/establishments`
+`$ beer_list establish Applebirds -u http://applebirds.com/beers -d path/to/establishments`
 
 will create the following code in path/to/establishments/applebirds.rb
 
@@ -107,7 +107,7 @@ end
 
 For all options you can pass to beer_list establish, run:
 
-`beer_list --help`
+`$ beer_list help`
 
 ### Using Your Generated Establishments
 
@@ -174,11 +174,11 @@ BeerList::Establishments::Thursdays
 You can get the beer lists for these places from the command line:
 
 ```
-beer_list list applebirds -d ~/my_beer_lists
+$ beer_list list applebirds -d ~/my_beer_lists
 
 # or
-beer_list list applebirds thursdays -d ~/my_beer_lists
+$ beer_list list applebirds thursdays -d ~/my_beer_lists
 
 # pass -j true for JSON
-beer_list list applebirds thursdays -j true -d ~/my_beer_lists
+$ beer_list list applebirds thursdays -j true -d ~/my_beer_lists
 ```
