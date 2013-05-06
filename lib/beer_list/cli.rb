@@ -1,65 +1,59 @@
-require 'optparse'
+require 'thor'
 
 module BeerList
-  class CLI
-    COMMANDS = %w(establish)
+  class CLI < Thor
+    option :url,
+           aliases: '-u',
+           banner:  "The URL of your establishment's beer list"
+    option :directory,
+           required: true,
+           aliases:  '-d',
+           banner:   'The directory in which BeerList will put your establishments'
+    option :selector,
+           aliases: '-s',
+           banner: 'Optional selector to use for scraping'
 
-    class << self
-      def start(args)
-        options = parse ARGV
-
-        msg = ARGV[0]
-        abort unsupported_command unless COMMANDS.include? msg
-
-        new(options).public_send msg
-      end
-
-      def parse(args)
-        options = {}
-
-        opts = OptionParser.new do |opts|
-          opts.banner = "Usage: beer_list establish [options]"
-
-          opts.on("-u", "--url [URL]", "url of your establishment's beer list") do |url|
-            options[:url] = url
-          end
-
-          opts.on("-s", "--selector [SELECTOR]", "selector to use for scraping") do |s|
-            options[:selector] = s
-          end
-
-          opts.on("-d", "--directory DIR", "the directory in which BeerList will put your establishments") do |dir|
-            options[:dir] = dir
-          end
-        end
-
-        opts.parse! args
-        options
-      end
-
-      def unsupported_command
-        <<-WARN
-        Command: not supported. Must be one of the following:
-        #{COMMANDS.join(', ')}
-        WARN
-      end
-
-      def no_establishments_dir
-        <<-WARN
-        You must supply an establishments directory with -d or --directory
-        WARN
-      end
-    end
-
-    def initialize(args)
-      @args = args
-    end
-
-    def establish(klass=ARGV[1])
-      abort self.class.no_establishments_dir unless @args[:dir]
+    desc 'establish ESTABLISHMENT', 'Generate a subclass of BeerList::Establishments::Establishment in the given directory'
+    def establish(klass)
       # Support underscore and camelcase
       klass = klass.split('_').map(&:capitalize).join if klass.match(/_/)
-      BeerList::EstablishmentGenerator.new(klass, @args)
+      BeerList::EstablishmentGenerator.new(klass, options)
+    end
+
+    option :directory,
+           aliases:  '-d',
+           banner:   'The directory where your establishments are stored'
+    option :json,
+           aliases: '-j',
+           type: :boolean,
+           banner:  'Format output as JSON'
+
+    desc 'list ESTABLISHMENTS', 'Retrieve the beer list at the given establishments'
+    def list(*establishments)
+      BeerList.establishments_dir = options[:directory]
+      BeerList.add_establishments *classify(establishments)
+      if options[:json]
+        puts BeerList.lists_as_json
+      else
+        BeerList.lists.each do |list|
+          puts '*' * (list.establishment.size + 10)
+          puts "**** #{list.establishment} ****"
+          puts '*' * (list.establishment.size + 10)
+          puts
+          puts list
+          puts
+        end
+      end
+    end
+
+    private
+
+    def classify(establishments)
+      establishments.map do |est|
+        class_name = est.to_s.split('_').map(&:capitalize).join
+        klass = ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
+        klass.new
+      end
     end
   end
 end

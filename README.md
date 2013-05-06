@@ -34,7 +34,7 @@ list.to_json
 Establishments peddle delicious beers. You're interested in which delicious beers a
 given establishment is peddling. To reconcile this situation, you need one or more 
 BeerList::Establishments. BeerList ships with a limited number of establishments, 
-but its easy to [extend BeerList](https://github.com/DanOlson/beer_list#extending-beerlist-with-more-establishments) with more.
+but its easy to [extend BeerList](#extending-beerlist-with-more-establishments) with more.
 
 First, let's try one out of the box:
 
@@ -131,7 +131,7 @@ BeerList.lists
 
 ```
 
-See [Getting A List](https://github.com/DanOlson/beer_list#getting-a-list) for more details.
+See [Getting A List](#getting-a-list) for more details.
 
 AND...
 
@@ -159,3 +159,26 @@ wi.list
 
 So far, support for this feature is limited to the United States. Hopefully, I can expand
 it in the not-too-distant future.
+
+### CLI
+
+In addition to the [establish](#extending-beerlist-with-more-establishments) command, which
+generates Establishment files for you, BeerList also offers the `list` command. For example,
+say you have the following two establishments a directory called ~/my_beer_lists:
+
+```
+BeerList::Establishments::Applebirds
+BeerList::Establishments::Thursdays
+```
+
+You can get the beer lists for these places from the command line:
+
+```
+beer_list list applebirds -d ~/my_beer_lists
+
+# or
+beer_list list applebirds thursdays -d ~/my_beer_lists
+
+# pass -j true for JSON
+beer_list list applebirds thursdays -j true -d ~/my_beer_lists
+```

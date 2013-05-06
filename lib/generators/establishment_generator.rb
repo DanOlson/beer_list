@@ -11,7 +11,7 @@ module BeerList
       @klass     = klass
       @url       = args[:url] || DEFAULT_URL
       @selector  = args[:selector] || '.selector'
-      @directory = args[:dir] || ESTABLISHMENTS_DIR
+      @directory = args[:directory] || ESTABLISHMENTS_DIR
       write_file
     end
 
