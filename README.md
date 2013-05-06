@@ -169,7 +169,6 @@ say you have the following two establishments a directory called ~/my_beer_lists
 ```
 BeerList::Establishments::Applebirds
 BeerList::Establishments::Thursdays
-
 ```
 
 You can get the beer lists for these places from the command line:
@@ -181,7 +180,5 @@ beer_list list applebirds -d ~/my_beer_lists
 beer_list list applebirds thursdays -d ~/my_beer_lists
 
 # pass -j true for JSON
-
 beer_list list applebirds thursdays -j true -d ~/my_beer_lists
-
 ```
