@@ -78,8 +78,12 @@ module BeerList
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      klass = ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
+      klass = get_class_with_namespace class_name
       scraper.beer_list klass.new
+    end
+
+    def get_class_with_namespace(class_name)
+      ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
     end
   end
 end

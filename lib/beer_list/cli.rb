@@ -51,7 +51,7 @@ module BeerList
     def classify(establishments)
       establishments.map do |est|
         class_name = est.to_s.split('_').map(&:capitalize).join
-        klass = ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
+        klass = BeerList.send(:get_class_with_namespace, class_name)
         klass.new
       end
     end
