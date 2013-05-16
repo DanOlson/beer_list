@@ -29,6 +29,22 @@ list.to_hash
 list.to_json
 ```
 
+### Establishments
+
+Establishments peddle delicious beers. You're interested in which delicious beers a
+given establishment is peddling. To reconcile this situation, you need one or more 
+BeerList::Establishments. BeerList ships with a limited number of establishments, 
+but its easy to [extend BeerList](#extending-beerlist-with-more-establishments) with more.
+
+First, let's try one out of the box:
+
+```
+bulldog_northeast = BeerList::Establishments::BulldogNortheast.new
+
+# Now get the list
+bulldog_northeast.list
+```
+
 You may want to get lists for more than one establishment at a time. To do so, register
 the desired establishments in BeerList.establishments:
 
@@ -47,23 +63,22 @@ BeerList.establishments
 BeerList.lists
 
 # As a hash
-BeerList.list_as_hash
+BeerList.lists_as_hash
 
 # As JSON
-BeerList.list_as_json
+BeerList.lists_as_json
 ```
 
 The Lists will be memoized until the content of BeerList.establishments changes so that
-The establishments don't have to be re-scraped each time the list is requested.
+the establishments don't have to be re-scraped each time the list is requested.
 
 ### Extending BeerList with More Establishments
 
-BeerList ships with a limited number of establishments, but also includes an executable
-to easily create your own.
+BeerList includes an executable to easily create your own establishments.
 
 For example:
 
-`beer_list establish Applebirds -u http://applebirds.com/beers -d path/to/establishments`
+`$ beer_list establish Applebirds -u http://applebirds.com/beers -d path/to/establishments`
 
 will create the following code in path/to/establishments/applebirds.rb
 
@@ -92,7 +107,7 @@ end
 
 For all options you can pass to beer_list establish, run:
 
-`beer_list --help`
+`$ beer_list help`
 
 ### Using Your Generated Establishments
 
@@ -116,8 +131,54 @@ BeerList.lists
 
 ```
 
-See [Getting A List](https://github.com/DanOlson/beer_list#getting-a-list) for more details.
+See [Getting A List](#getting-a-list) for more details.
 
 AND...
 
 Checkout [This link](http://mechanize.rubyforge.org/) for more on Mechanize
+
+### Leads
+
+If you're out of ideas on what establishments you may want lists for, fear not: BeerList can
+give you some ideas.
+
+```
+# You might be interested in good beer bars located in California:
+cali = BeerList::Leads::CA.new
+
+# returns a BeerList::List of URLs for popular beer bars in California
+cali.list
+
+
+# Maybe you want Wisconsin:
+wi = BeerList::Leads:WI.new
+
+wi.list
+
+```
+
+So far, support for this feature is limited to the United States. Hopefully, I can expand
+it in the not-too-distant future.
+
+### CLI
+
+In addition to the [establish](#extending-beerlist-with-more-establishments) command, which
+generates Establishment files for you, BeerList also offers the `list` command. For example,
+say you have the following two establishments a directory called ~/my_beer_lists:
+
+```
+BeerList::Establishments::Applebirds
+BeerList::Establishments::Thursdays
+```
+
+You can get the beer lists for these places from the command line:
+
+```
+$ beer_list list applebirds -d ~/my_beer_lists
+
+# or
+$ beer_list list applebirds thursdays -d ~/my_beer_lists
+
+# pass -j for JSON
+$ beer_list list applebirds thursdays -j -d ~/my_beer_lists
+```

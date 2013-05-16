@@ -8,6 +8,8 @@ module BeerList
   require 'beer_list/cli'
   require 'generators/establishment_generator'
   require 'ext/string'
+  require 'beer_list/listable'
+  require 'beer_list/leads/beer_advocate'
   autoload :Establishments, 'beer_list/establishments'
 
   class << self
@@ -55,11 +57,11 @@ module BeerList
       lists_as_hash.to_json
     end
 
-    private
-
     def scraper
-      @scraper ||= Scraper.new
+      @scraper ||= Scraper.instance
     end
+
+    private
 
     def update_necessary?
       !@lists || !establishments_eq_lists?
@@ -76,8 +78,12 @@ module BeerList
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      klass = ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
+      klass = get_class_with_namespace class_name
       scraper.beer_list klass.new
+    end
+
+    def get_class_with_namespace(class_name)
+      ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
     end
   end
 end

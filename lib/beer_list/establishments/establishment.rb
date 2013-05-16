@@ -1,12 +1,7 @@
 module BeerList
   module Establishments
     class Establishment
-      attr_accessor :scraper, :page
-
-      def list
-        raise BeerList::NoScraperError unless @scraper
-        @list ||= BeerList::List.new establishment: short_class_name, array: get_list
-      end
+      include BeerList::Listable
 
       def get_list
         raise "#{__method__} is not implemented in #{self.class.name}"

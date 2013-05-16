@@ -83,6 +83,7 @@ describe BeerList do
       end
 
       before do
+        establishment.stub(:visit_page)
         establishment.stub(:get_list){ ['Darkness', 'Pliney the Elder'] }
       end
 
