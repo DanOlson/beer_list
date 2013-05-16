@@ -70,7 +70,7 @@ BeerList.lists_as_json
 ```
 
 The Lists will be memoized until the content of BeerList.establishments changes so that
-The establishments don't have to be re-scraped each time the list is requested.
+the establishments don't have to be re-scraped each time the list is requested.
 
 ### Extending BeerList with More Establishments
 
@@ -179,6 +179,6 @@ $ beer_list list applebirds -d ~/my_beer_lists
 # or
 $ beer_list list applebirds thursdays -d ~/my_beer_lists
 
-# pass -j true for JSON
-$ beer_list list applebirds thursdays -j true -d ~/my_beer_lists
+# pass -j for JSON
+$ beer_list list applebirds thursdays -j -d ~/my_beer_lists
 ```
