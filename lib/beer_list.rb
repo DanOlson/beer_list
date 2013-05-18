@@ -32,7 +32,12 @@ module BeerList
       settings.establishments_dir
     end
 
+    ### DEPRECATED ###
     def establishments_dir=(directory)
+      puts <<-dep
+        BeerList.establishments_dir= is deprecated and will be removed.
+        Please use BeerList.configure instead
+      dep
       settings.establishments_dir = directory
     end
 
