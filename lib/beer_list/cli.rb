@@ -30,7 +30,7 @@ module BeerList
 
     desc 'list ESTABLISHMENTS', 'Retrieve the beer list at the given establishments'
     def list(*establishments)
-      BeerList.establishments_dir = options[:directory]
+      configure
       BeerList.add_establishments *classify(establishments)
       if options[:json]
         puts BeerList.lists_as_json
@@ -47,6 +47,13 @@ module BeerList
     end
 
     private
+
+    def configure
+      BeerList.configure do |c|
+        c.establishments_dir = options[:directory]
+        c.default_url        = options[:default_url]
+      end
+    end
 
     def classify(establishments)
       establishments.map do |est|

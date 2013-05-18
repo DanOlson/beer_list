@@ -3,6 +3,23 @@ require 'spec_helper'
 describe BeerList do
   let(:establishment){ BeerList::Establishments::ThreeSquares.new }
 
+  describe '.configure' do
+    before do
+      BeerList.configure do |c|
+        c.establishments_dir = '/home/foo'
+        c.default_url        = 'http://omg.io'
+      end
+    end
+
+    it 'stores the establishments_dir' do
+      BeerList.establishments_dir.should == '/home/foo'
+    end
+
+    it 'stores the default_url' do
+      BeerList.default_url.should == 'http://omg.io'
+    end
+  end
+
   describe '.establishments' do
 
     after(:each) do

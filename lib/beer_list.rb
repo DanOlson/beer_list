@@ -2,6 +2,7 @@ require 'mechanize'
 require 'json'
 
 module BeerList
+  require 'beer_list/settings'
   require 'beer_list/scraper'
   require 'beer_list/list'
   require 'beer_list/exceptions'
@@ -14,12 +15,25 @@ module BeerList
 
   class << self
 
+    def configure
+      yield settings
+      self
+    end
+
+    def settings
+      @settings ||= Settings.new
+    end
+
+    def default_url
+      settings.default_url
+    end
+
     def establishments_dir
-      @establishments_dir
+      settings.establishments_dir
     end
 
     def establishments_dir=(directory)
-      @establishments_dir = directory
+      settings.establishments_dir = directory
     end
 
     def establishments
