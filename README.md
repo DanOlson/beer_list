@@ -173,14 +173,14 @@ In addition to the [establish](#extending-beerlist-with-more-establishments) com
 generates Establishment files for you, BeerList also offers the `list` command. For example,
 say you have the following two establishments a directory called ~/my_beer_lists:
 
-```ruby
-BeerList::Establishments::Applebirds
-BeerList::Establishments::Thursdays
+```
+applebirds.rb
+thursdays.rb
 ```
 
 You can get the beer lists for these places from the command line:
 
-```ruby
+```
 $ beer_list list applebirds -d ~/my_beer_lists
 
 # or
