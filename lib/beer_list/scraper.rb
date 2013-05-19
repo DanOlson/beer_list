@@ -17,13 +17,22 @@ module BeerList
     end
 
     def visit(visitable)
-      visitable.page = @agent.get(visitable.url)
+      visitable.page = agent.get(visitable.url)
+    end
+
+    def send_json(url, json)
+      agent.post url, "{\"beer_list\": #{json}}", 'Content-Type' => 'application/json'
+      true
     end
 
     private
 
     def set_user_agent
-      @agent.user_agent_alias = USER_AGENT
+      agent.user_agent_alias = USER_AGENT
+    end
+
+    def agent
+      @agent
     end
   end
 end

@@ -17,7 +17,7 @@ module BeerList
 
     def configure
       yield settings
-      self
+      true
     end
 
     def settings
@@ -76,6 +76,19 @@ module BeerList
       lists_as_hash.to_json
     end
 
+    def send_list(list, url=nil)
+      url ||= default_url
+      raise NoUrlError unless url
+      raise NotAListError unless list.is_a? BeerList::List
+      scraper.send_json url, list.to_json
+    end
+
+    def send_lists(url=nil)
+      url ||= default_url
+      raise NoUrlError unless url
+      scraper.send_json url, lists_as_json
+    end
+
     def scraper
       @scraper ||= Scraper.instance
     end
@@ -97,8 +110,16 @@ module BeerList
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      klass = get_class_with_namespace class_name
-      scraper.beer_list klass.new
+      if is_establishment? class_name
+        klass = get_class_with_namespace class_name
+        scraper.beer_list klass.new
+      else
+        super
+      end
+    end
+
+    def is_establishment?(class_name)
+      BeerList::Establishments.constants.include? class_name.to_sym
     end
 
     def get_class_with_namespace(class_name)
