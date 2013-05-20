@@ -11,7 +11,7 @@ module BeerList
            banner:   'The directory in which BeerList will put your establishments'
     option :selector,
            aliases: '-s',
-           banner: 'Optional selector to use for scraping'
+           banner:  'Optional selector to use for scraping'
 
     desc 'establish ESTABLISHMENT', 'Generate a subclass of BeerList::Establishments::Establishment in the given directory'
     def establish(klass)
@@ -30,8 +30,8 @@ module BeerList
 
     desc 'list ESTABLISHMENTS', 'Retrieve the beer list at the given establishments'
     def list(*establishments)
-      BeerList.establishments_dir = options[:directory]
-      BeerList.add_establishments *classify(establishments)
+      configure
+      add_establishments establishments
       if options[:json]
         puts BeerList.lists_as_json
       else
@@ -46,13 +46,42 @@ module BeerList
       end
     end
 
+    option :url,
+           aliases:  '-u',
+           required: true,
+           banner:   'the URL to which to post your lists'
+    desc 'send ESTABLISHMENTS', 'Send (POST) the lists (as JSON) for the given establishments to the given URL'
+    def send(*establishments)
+      configure
+      add_establishments establishments
+      puts "Sent!" if BeerList.send_lists
+    end
+
     private
+
+    def add_establishments(establishments)
+      BeerList.add_establishments *classify(establishments)
+    end
+
+    def configure
+      BeerList.configure do |c|
+        c.establishments_dir = options[:directory]
+        c.default_url        = options[:url]
+      end
+    end
 
     def classify(establishments)
       establishments.map do |est|
         class_name = est.to_s.split('_').map(&:capitalize).join
-        klass = BeerList.send(:get_class_with_namespace, class_name)
+        instantiate_or_die class_name
+      end
+    end
+
+    def instantiate_or_die(class_name)
+      if klass = BeerList.send(:get_class_with_namespace, class_name)
         klass.new
+      else
+        abort "#{class_name} is not recognized. Is it in your BeerList.establishments_dir?"
       end
     end
   end
