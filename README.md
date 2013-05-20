@@ -144,6 +144,39 @@ AND...
 
 Checkout [This link](http://mechanize.rubyforge.org/) for more on Mechanize
 
+### Sending Lists
+
+Once you have lists, you can use them locally (obviously), or you can send the elsewhere.
+Configure BeerList with a default URL like this:
+
+```ruby
+BeerList.configure do |c|
+  c.default_url = 'https://yourapp.com/some_sweet_beer_route'
+end
+```
+
+Then in your code, send a list!
+
+```ruby
+applebirds = BeerList.applebirds
+
+# POSTs your list to your default_url as JSON under the "beer_list" name
+BeerList.send_list(applebirds)
+
+# You can also give it an explicit URL
+other_route = 'http://myotherapp.com/another_beer_route'
+BeerList.send_list(applebirds, other_route)
+
+# Register some lists and send 'em all at once:
+thursdays = BeerList::Establishments::Thursdays.new
+
+BeerList.add_establishments(applebirds, thursdays)
+BeerList.send_lists
+```
+
+Both .send_list and .send_lists accept an optional URL as the last argument. If you don't pass one,
+it will use the default in your configuration. If neither doesn't exist, it will raise an error.
+
 ### Leads
 
 If you're out of ideas on what establishments you may want lists for, fear not: BeerList can
