@@ -3,6 +3,23 @@ require 'spec_helper'
 describe BeerList do
   let(:establishment){ BeerList::Establishments::ThreeSquares.new }
 
+  describe '.configure' do
+    before do
+      BeerList.configure do |c|
+        c.establishments_dir = '/home/foo'
+        c.default_url        = 'http://omg.io'
+      end
+    end
+
+    it 'stores the establishments_dir' do
+      BeerList.establishments_dir.should == '/home/foo'
+    end
+
+    it 'stores the default_url' do
+      BeerList.default_url.should == 'http://omg.io'
+    end
+  end
+
   describe '.establishments' do
 
     after(:each) do
@@ -109,4 +126,34 @@ describe BeerList do
     end
   end
 
+  describe 'sending lists' do
+    let(:scraper){ stub }
+    let(:url){ 'http://omg.io' }
+    let(:json){ "{\"foo\":\"bar\"}" }
+    let(:list){ BeerList::List.new }
+
+    before do
+      BeerList.stub(:scraper).and_return scraper
+      list.stub(:to_json).and_return json
+    end
+
+    describe '.send_list' do
+      it 'delegates to the scraper' do
+        scraper.should_receive(:send_json).with(url, json)
+        BeerList.send_list list, url
+      end
+    end
+
+    describe '.send_lists' do
+      before do
+        BeerList.stub(:lists).and_return [list]
+        list.stub(:to_hash).and_return({ foo: 'bar' })
+      end
+
+      it 'delegates to the scraper' do
+        scraper.should_receive(:send_json).with(url, json)
+        BeerList.send_lists url
+      end
+    end
+  end
 end

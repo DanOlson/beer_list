@@ -2,6 +2,7 @@ require 'mechanize'
 require 'json'
 
 module BeerList
+  require 'beer_list/settings'
   require 'beer_list/scraper'
   require 'beer_list/list'
   require 'beer_list/exceptions'
@@ -14,12 +15,30 @@ module BeerList
 
   class << self
 
-    def establishments_dir
-      @establishments_dir
+    def configure
+      yield settings
+      true
     end
 
+    def settings
+      @settings ||= Settings.new
+    end
+
+    def default_url
+      settings.default_url
+    end
+
+    def establishments_dir
+      settings.establishments_dir
+    end
+
+    ### DEPRECATED ###
     def establishments_dir=(directory)
-      @establishments_dir = directory
+      puts <<-dep
+        BeerList.establishments_dir= is deprecated and will be removed.
+        Please use BeerList.configure instead
+      dep
+      settings.establishments_dir = directory
     end
 
     def establishments
@@ -57,6 +76,19 @@ module BeerList
       lists_as_hash.to_json
     end
 
+    def send_list(list, url=nil)
+      url ||= default_url
+      raise NoUrlError unless url
+      raise NotAListError unless list.is_a? BeerList::List
+      scraper.send_json url, list.to_json
+    end
+
+    def send_lists(url=nil)
+      url ||= default_url
+      raise NoUrlError unless url
+      scraper.send_json url, lists_as_json
+    end
+
     def scraper
       @scraper ||= Scraper.instance
     end
@@ -78,11 +110,19 @@ module BeerList
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      klass = get_class_with_namespace class_name
-      scraper.beer_list klass.new
+      if klass = get_class_with_namespace(class_name)
+        scraper.beer_list klass.new
+      else
+        super
+      end
+    end
+
+    def is_establishment?(class_name)
+      BeerList::Establishments.constants.include? class_name.to_sym
     end
 
     def get_class_with_namespace(class_name)
+      return nil unless is_establishment? class_name
       ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
     end
   end
