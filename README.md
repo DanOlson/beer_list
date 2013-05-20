@@ -146,7 +146,7 @@ Checkout [This link](http://mechanize.rubyforge.org/) for more on Mechanize
 
 ### Sending Lists
 
-Once you have lists, you can use them locally (obviously), or you can send the elsewhere.
+Once you have lists, you can use them locally (obviously), or you can send them elsewhere.
 Configure BeerList with a default URL like this:
 
 ```ruby
@@ -203,7 +203,9 @@ it in the not-too-distant future.
 ### CLI
 
 In addition to the [establish](#extending-beerlist-with-more-establishments) command, which
-generates Establishment files for you, BeerList also offers the `list` command. For example,
+generates Establishment files for you, BeerList also offers a few other commands:
+
+There's the `list` command. For example,
 say you have the following two establishments a directory called ~/my_beer_lists:
 
 ```
@@ -222,3 +224,9 @@ $ beer_list list applebirds thursdays -d ~/my_beer_lists
 # pass -j for JSON
 $ beer_list list applebirds thursdays -j -d ~/my_beer_lists
 ```
+
+There's also the `send` command for [sending your lists](#sending-lists) to a given URL:
+
+`$ beer_list send applebirds thursdays -u 'http://mybeerapiendpoint.com/beer_list'`
+
+See `$ beer_list help` for all commands

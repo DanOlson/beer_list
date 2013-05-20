@@ -21,6 +21,13 @@ module BeerList
         agent.should_receive(:post).with url, expected_json, headers
         scraper.send_json url, json
       end
+
+      it 'prepends a scheme if one is not given' do
+        expected_json = "{\"beer_list\": #{json}}"
+        no_scheme_url = 'www.foobar.com'
+        agent.should_receive(:post).with "http://#{no_scheme_url}", expected_json, headers
+        scraper.send_json no_scheme_url, json
+      end
     end
 
     describe '#beer_list' do

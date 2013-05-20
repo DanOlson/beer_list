@@ -110,8 +110,7 @@ module BeerList
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      if is_establishment? class_name
-        klass = get_class_with_namespace class_name
+      if klass = get_class_with_namespace(class_name)
         scraper.beer_list klass.new
       else
         super
@@ -123,6 +122,7 @@ module BeerList
     end
 
     def get_class_with_namespace(class_name)
+      return nil unless is_establishment? class_name
       ['BeerList', 'Establishments', class_name].inject(Object){ |o, name| o.const_get(name) }
     end
   end
