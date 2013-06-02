@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class LowryUptown < Establishment
-      URL = 'http://www.thelowryuptown.com/drink'
+      URL     = 'http://www.thelowryuptown.com/drink'
+      ADDRESS = '2112 Hennepin Ave, Minneapolis, MN 55405'
 
       def get_list
         base_list
@@ -11,6 +12,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

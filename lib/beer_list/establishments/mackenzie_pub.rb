@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class MackenziePub < Establishment
-      URL = 'http://mackenziepub.com/drink/beer/'
+      URL     = 'http://mackenziepub.com/drink/beer/'
+      ADDRESS = '918 Hennepin Ave, Minneapolis, MN 55403'
 
       def get_list
         base_list
@@ -10,6 +11,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

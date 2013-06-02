@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class WashingtonSquare < Establishment
-      URL = 'http://www.washingtonsquareonline.net/as_on-tap'
+      URL     = 'http://www.washingtonsquareonline.net/as_on-tap'
+      ADDRESS = '4736 Washington Ave, St Paul, MN 55110'
 
       def get_list
         base_list
@@ -11,6 +12,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

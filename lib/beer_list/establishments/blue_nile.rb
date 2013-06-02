@@ -2,7 +2,8 @@ module BeerList
   module Establishments
     class BlueNile < Establishment
       RESTAURANT_NAME = 'Blue Nile'
-      URL = 'http://www.bluenilempls.com/bar-b.html'
+      URL             = 'http://www.bluenilempls.com/bar-b.html'
+      ADDRESS         = '2027 E Franklin Ave, Minneapolis, MN 55404'
 
       def get_list
         base_list
@@ -11,6 +12,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

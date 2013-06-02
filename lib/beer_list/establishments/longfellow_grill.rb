@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class LongfellowGrill < Establishment
-      URL = 'http://www.longfellowgrill.com/beer_taps.php'
+      URL     = 'http://www.longfellowgrill.com/beer_taps.php'
+      ADDRESS = '2990 W River Pkwy, Minneapolis, MN 55406'
       STATE_AND_PRICE_REGEX = /\s*(?:\([A-Z]*\))*\s*\**\s*\d+\.\d{2}$/
 
       def get_list
@@ -12,6 +13,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

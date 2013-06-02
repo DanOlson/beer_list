@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class GingerHop < Establishment
-      URL = 'http://www.gingerhop.com/beer'
+      URL   = 'http://www.gingerhop.com/beer'
+      ADDRESS = '201 E Hennepin Ave, Minneapolis, MN 55414'
 
       def get_list
         page.search('div.left-col h5').map(&:text)
@@ -9,6 +10,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
     end
   end

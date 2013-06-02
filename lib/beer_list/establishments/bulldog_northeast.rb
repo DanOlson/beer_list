@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class BulldogNortheast < Establishment
-      URL = 'http://www.thebulldognortheast.com/beer/'
+      URL     = 'http://www.thebulldognortheast.com/beer/'
+      ADDRESS = '401 E Hennepin Ave, Minneapolis, MN 55414'
 
       def get_list
         list = page.search('p.copy_menu_item_desc').map(&:text)

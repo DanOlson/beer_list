@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class BulldogUptown < Establishment
-      URL = 'http://www.thebulldoguptown.com/beer/'
+      URL     = 'http://www.thebulldoguptown.com/beer/'
+      ADDRESS = '2549 Lyndale Ave S, Minneapolis, MN 55405'
 
       def get_list
         list = page.search('span.menuTitle').map(&:text)
@@ -15,6 +16,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
     end
   end

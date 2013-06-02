@@ -1,8 +1,8 @@
 module BeerList
   module Establishments
     class AcadiaCafe < Establishment
-      URL = 'http://acadiacafe.com/as_beer-menu-and-happy-hour-specials'
-      ADDRESS = ''
+      URL     = 'http://acadiacafe.com/as_beer-menu-and-happy-hour-specials'
+      ADDRESS = '329 Cedar Ave, Minneapolis, MN 55454'
 
       def get_list
         base_list
