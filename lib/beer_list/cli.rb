@@ -39,9 +39,9 @@ module BeerList
         puts BeerList.lists_as_json
       else
         BeerList.lists.each do |list|
-          puts '*' * (list.establishment.size + 10)
-          puts "**** #{list.establishment} ****"
-          puts '*' * (list.establishment.size + 10)
+          puts '*' * (list.listable_name.size + 10)
+          puts "**** #{list.listable_name} ****"
+          puts '*' * (list.listable_name.size + 10)
           puts
           puts list
           puts
