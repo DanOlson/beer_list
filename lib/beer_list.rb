@@ -58,20 +58,18 @@ module BeerList
     end
 
     def lists_as_hash
-      lists.inject({}) do |hsh, list|
-        hsh.merge! list.to_hash
-      end
+      lists.map &:to_hash
     end
 
     def lists_as_json
-      lists_as_hash.to_json
+      lists.map &:to_json
     end
 
     def send_list(list, url=nil)
       url ||= default_url
       raise NoUrlError unless url
       raise NotAListError unless list.is_a? BeerList::List
-      scraper.send_json url, list.to_json
+      scraper.send_json url, [list.to_json]
     end
 
     def send_lists(url=nil)

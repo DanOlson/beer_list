@@ -105,14 +105,14 @@ describe BeerList do
       end
 
       describe '.lists_as_hash' do
-        it 'returns a hash' do
-          BeerList.lists_as_hash.should be_an_instance_of Hash
+        it 'returns an array of hashes' do
+          BeerList.lists_as_hash.all? { |l| l.is_a? Hash }.should be_true
         end
       end
 
       describe '.lists_as_json' do
-        it 'returns JSON' do
-          expect { JSON.parse(BeerList.lists_as_json) }.to_not raise_error
+        it 'returns an array of valid JSON' do
+          expect { BeerList.lists_as_json.each { |j| JSON.parse(j) } }.to_not raise_error
         end
       end
     end
@@ -122,6 +122,7 @@ describe BeerList do
     let(:url){ 'http://omg.io' }
     let(:json){ "{\"foo\":\"bar\"}" }
     let(:list){ BeerList::List.new }
+    let(:expected){ [url, [json]] }
 
     before do
       BeerList.stub(:scraper).and_return scraper
@@ -130,7 +131,7 @@ describe BeerList do
 
     describe '.send_list' do
       it 'delegates to the scraper' do
-        scraper.should_receive(:send_json).with(url, json)
+        scraper.should_receive(:send_json).with *expected
         BeerList.send_list list, url
       end
     end
@@ -142,7 +143,7 @@ describe BeerList do
       end
 
       it 'delegates to the scraper' do
-        scraper.should_receive(:send_json).with(url, json)
+        scraper.should_receive(:send_json).with *expected
         BeerList.send_lists url
       end
     end
