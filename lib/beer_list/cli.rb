@@ -12,6 +12,9 @@ module BeerList
     option :selector,
            aliases: '-s',
            banner:  'Optional selector to use for scraping'
+    option :address,
+           aliases: '-a',
+           banner:  'The physical address of your establishment'
 
     desc 'establish ESTABLISHMENT', 'Generate a subclass of BeerList::Establishments::Establishment in the given directory'
     def establish(klass)

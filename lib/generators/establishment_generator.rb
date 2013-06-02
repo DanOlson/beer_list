@@ -12,6 +12,7 @@ module BeerList
       @url       = args[:url] || DEFAULT_URL
       @selector  = args[:selector] || '.selector'
       @directory = args[:directory] || ESTABLISHMENTS_DIR
+      @address   = args[:address] # Fallback to nil if not given
       write_file
     end
 

@@ -101,7 +101,7 @@ module BeerList
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      if klass = get_class_with_namespace class_name
+      if klass = get_class_with_namespace(class_name)
         scraper.beer_list klass.new
       else
         super
