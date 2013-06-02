@@ -32,15 +32,6 @@ module BeerList
       settings.establishments_dir
     end
 
-    ### DEPRECATED ###
-    def establishments_dir=(directory)
-      puts <<-dep
-        BeerList.establishments_dir= is deprecated and will be removed.
-        Please use BeerList.configure instead
-      dep
-      settings.establishments_dir = directory
-    end
-
     def establishments
       return [] if @establishments.nil?
       @establishments.dup
@@ -104,13 +95,13 @@ module BeerList
     end
 
     def establishments_eq_lists?
-      list_names = @lists.map(&:establishment)
-      establishments.map(&:short_class_name).all? { |name| list_names.include? name }
+      list_names = @lists.map { |list| list.listable_name }
+      establishments.map(&:name).all? { |name| list_names.include? name }
     end
 
     def method_missing(method, *args, &block)
       class_name = method.to_s.split('_').map(&:capitalize).join
-      if klass = get_class_with_namespace(class_name)
+      if klass = get_class_with_namespace class_name
         scraper.beer_list klass.new
       else
         super

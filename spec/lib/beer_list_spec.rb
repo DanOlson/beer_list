@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe BeerList do
   let(:establishment){ BeerList::Establishments::ThreeSquares.new }
+  let(:scraper){ stub }
 
   describe '.configure' do
     before do
@@ -21,11 +22,6 @@ describe BeerList do
   end
 
   describe '.establishments' do
-
-    after(:each) do
-      BeerList.clear_establishments!
-    end
-
     it 'returns an array' do
       BeerList.establishments.should be_an_instance_of Array
     end
@@ -91,17 +87,13 @@ describe BeerList do
     end
 
     context 'when establishments are registered' do
-      before(:all) do
-        BeerList.add_establishments establishment
-      end
-
-      after(:all) do
-        BeerList.clear_establishments!
-      end
+      let(:list){ BeerList::List.new listable: establishment, array: [] }
 
       before do
-        establishment.stub(:visit_page)
-        establishment.stub(:get_list){ ['Darkness', 'Pliney the Elder'] }
+        BeerList.stub(:establishments){ [establishment] }
+        BeerList.stub(:update_necessary?){ true }
+        BeerList.stub(:scraper){ scraper }
+        scraper.should_receive(:beer_list).with(establishment){ list }
       end
 
       it 'returns an array of lists' do
@@ -109,7 +101,7 @@ describe BeerList do
       end
 
       it 'contains lists for the registered establishments' do
-        BeerList.lists.first.establishment.should == 'ThreeSquares'
+        BeerList.lists.first.listable.should == establishment
       end
 
       describe '.lists_as_hash' do
@@ -127,7 +119,6 @@ describe BeerList do
   end
 
   describe 'sending lists' do
-    let(:scraper){ stub }
     let(:url){ 'http://omg.io' }
     let(:json){ "{\"foo\":\"bar\"}" }
     let(:list){ BeerList::List.new }

@@ -4,7 +4,7 @@ module BeerList
   module Establishments
 
     describe Establishment do
-      let(:establishment){ BeerList::Establishments::MuddyWaters.new }
+      let(:establishment){ BeerList::Establishments::Establishment.new }
 
       describe '#list' do
         it 'returns a BeerList::List' do
@@ -16,21 +16,31 @@ module BeerList
 
       describe '#get_list' do
         context 'when it is not implemented in a subclass' do
-          it 'raises an exception' do
-            expect { establishment.get_list }.to raise_error
+          it 'returns nil' do
+            establishment.get_list.should be_nil
           end
         end
       end
 
       describe '#url' do
-        it 'raises an exception unless it is implemented in a subclass' do
-          expect { establishment.get_list }.to raise_error
+        context 'when it is not implemented in a subclass' do
+          it 'returns nil' do
+            establishment.url.should be_nil
+          end
         end
       end
 
-      describe '#short_class_name' do
+      describe '#address' do
+        context 'when it is not implemented in a subclass' do
+          it 'returns nil' do
+            establishment.address.should be_nil
+          end
+        end
+      end
+
+      describe '#name' do
         it 'returns a usable name' do
-          establishment.short_class_name.should == 'MuddyWaters'
+          establishment.name.should == 'Establishment'
         end
       end
     end
