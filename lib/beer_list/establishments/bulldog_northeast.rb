@@ -13,6 +13,10 @@ module BeerList
       def url
         URL
       end
+
+      def address
+        ADDRESS
+      end
     end
   end
 end
