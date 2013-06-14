@@ -4,7 +4,8 @@ module BeerList
       include BeerList::Listable
 
       def name
-        self.class.name.split('::').last.split(/(?=[A-Z])/).join(' ')
+        class_name = self.class.name.split('::').last
+        class_name.split(/([A-Z]{1}[a-z]+)/).reject(&:empty).join(' ')
       end
     end
   end

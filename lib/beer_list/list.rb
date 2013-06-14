@@ -9,7 +9,7 @@ module BeerList
     end
 
     def to_hash
-      { name: listable.name, address: listable.address, list: to_a }
+      { name: listable_name, address: listable.address, list: to_a }
     end
 
     alias :old_to_json :to_json
