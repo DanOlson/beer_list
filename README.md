@@ -88,7 +88,8 @@ will create the following code in path/to/establishments/applebirds.rb
 module BeerList
   module Establishments
     class Applebirds < Establishment
-      URL = 'http://applebirds.com/beers'
+      URL     = 'http://applebirds.com/beers'
+      ADDRESS = nil
 
       # Handles parsing and manipulating a Mechanize::Page object
       # in order to scrape the contents of your beer list.
@@ -100,6 +101,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
     end
   end
@@ -175,7 +180,7 @@ BeerList.send_lists
 ```
 
 Both .send_list and .send_lists accept an optional URL as the last argument. If you don't pass one,
-it will use the default in your configuration. If neither doesn't exist, it will raise an error.
+it will use the default in your configuration. If neither exist, it will raise an error.
 
 ### Leads
 
