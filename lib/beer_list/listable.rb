@@ -2,17 +2,16 @@ module BeerList
   module Listable
     attr_accessor :page
 
+    # Templates
+    [:get_list, :url, :address, :name].each do |m|
+      define_method m do
+        nil
+      end
+    end
+
     def list
       visit_page unless page
-      @list ||= BeerList::List.new establishment: short_class_name, array: get_list
-    end
-
-    def short_class_name
-      raise NotImplementedError
-    end
-
-    def get_list
-      raise NotImplementedError
+      @list ||= BeerList::List.new listable: self, array: get_list || []
     end
 
     private

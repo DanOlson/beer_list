@@ -3,6 +3,7 @@ module BeerList
     class HappyGnome < Establishment
       attr_accessor :url
 
+      ADDRESS = '498 Selby Ave, St Paul, MN 55102'
       DRAFTS  = 'http://thehappygnome.com/menus/drafts/'
       BOTTLES = 'http://thehappygnome.com/menus/bottled-beers/'
 
@@ -13,6 +14,10 @@ module BeerList
       def get_list
         get_draft_list
         get_bottle_list
+      end
+
+      def address
+        ADDRESS
       end
 
       private

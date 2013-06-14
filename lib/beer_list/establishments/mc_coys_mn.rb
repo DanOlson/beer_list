@@ -3,6 +3,7 @@ module BeerList
     class McCoysMN < Establishment
       attr_accessor :url
 
+      ADDRESS = '3801 Grand Way, St Louis Park, MN 55416'
       DRAFTS  = 'http://mccoysmn.com/beer/'
       BOTTLES = 'http://mccoysmn.com/beer/bottles'
 
@@ -14,6 +15,10 @@ module BeerList
         @beers = []
         get_draft_list
         get_bottle_list
+      end
+
+      def address
+        ADDRESS
       end
 
       private

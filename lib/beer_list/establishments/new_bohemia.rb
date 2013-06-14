@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class NewBohemia < Establishment
-      URL = 'http://www.newbohemiausa.com/bier/'
+      URL     = 'http://www.newbohemiausa.com/bier/'
+      ADDRESS = '233 E Hennepin Ave, Minneapolis, MN 55414'
 
       def get_list
         base_list
@@ -10,6 +11,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

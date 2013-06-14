@@ -12,6 +12,9 @@ module BeerList
     option :selector,
            aliases: '-s',
            banner:  'Optional selector to use for scraping'
+    option :address,
+           aliases: '-a',
+           banner:  'The physical address of your establishment'
 
     desc 'establish ESTABLISHMENT', 'Generate a subclass of BeerList::Establishments::Establishment in the given directory'
     def establish(klass)
@@ -36,9 +39,9 @@ module BeerList
         puts BeerList.lists_as_json
       else
         BeerList.lists.each do |list|
-          puts '*' * (list.establishment.size + 10)
-          puts "**** #{list.establishment} ****"
-          puts '*' * (list.establishment.size + 10)
+          puts '*' * (list.listable_name.size + 10)
+          puts "**** #{list.listable_name} ****"
+          puts '*' * (list.listable_name.size + 10)
           puts
           puts list
           puts

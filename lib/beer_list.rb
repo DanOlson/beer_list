@@ -32,15 +32,6 @@ module BeerList
       settings.establishments_dir
     end
 
-    ### DEPRECATED ###
-    def establishments_dir=(directory)
-      puts <<-dep
-        BeerList.establishments_dir= is deprecated and will be removed.
-        Please use BeerList.configure instead
-      dep
-      settings.establishments_dir = directory
-    end
-
     def establishments
       return [] if @establishments.nil?
       @establishments.dup
@@ -67,20 +58,18 @@ module BeerList
     end
 
     def lists_as_hash
-      lists.inject({}) do |hsh, list|
-        hsh.merge! list.to_hash
-      end
+      lists.map &:to_hash
     end
 
     def lists_as_json
-      lists_as_hash.to_json
+      lists.map &:to_json
     end
 
     def send_list(list, url=nil)
       url ||= default_url
       raise NoUrlError unless url
       raise NotAListError unless list.is_a? BeerList::List
-      scraper.send_json url, list.to_json
+      scraper.send_json url, [list.to_json]
     end
 
     def send_lists(url=nil)
@@ -104,8 +93,8 @@ module BeerList
     end
 
     def establishments_eq_lists?
-      list_names = @lists.map(&:establishment)
-      establishments.map(&:short_class_name).all? { |name| list_names.include? name }
+      list_names = @lists.map { |list| list.listable_name }
+      establishments.map(&:name).all? { |name| list_names.include? name }
     end
 
     def method_missing(method, *args, &block)
@@ -116,6 +105,16 @@ module BeerList
         super
       end
     end
+
+    def respond_to_missing?(method, include_private=false)
+      class_name = method.to_s.split('_').map(&:capitalize).join
+      !!get_class_with_namespace(class_name) || super
+    end if RUBY_VERSION >= '1.9'
+
+    def respond_to?(method, include_private=false)
+      class_name = method.to_s.split('_').map(&:capitalize).join
+      !!get_class_with_namespace(class_name) || super
+    end if RUBY_VERSION < '1.9'
 
     def is_establishment?(class_name)
       BeerList::Establishments.constants.include? class_name.to_sym

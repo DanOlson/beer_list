@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class BustersOn28th < Establishment
-      URL = 'http://busterson28th.com/bottles/'
+      URL     = 'http://busterson28th.com/bottles/'
+      ADDRESS = '4204 S 28th Ave, Minneapolis, Minnesota 55406'
 
       def get_list
         base_list
@@ -13,6 +14,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private

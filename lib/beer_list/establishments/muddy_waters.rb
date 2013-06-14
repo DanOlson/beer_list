@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class MuddyWaters < Establishment
-      URL = 'http://muddywatersmpls.com/booze.html'
+      URL   = 'http://muddywatersmpls.com/booze.html'
+      ADDRESS = '2933 Lyndale Ave S, Minneapolis, MN 55408'
 
       def get_list
         get_processed_list
@@ -9,6 +10,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       def get_processed_list

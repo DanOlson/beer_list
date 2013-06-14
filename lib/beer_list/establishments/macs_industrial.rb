@@ -1,7 +1,8 @@
 module BeerList
   module Establishments
     class MacsIndustrial < Establishment
-      URL = 'http://www.macsindustrial.com/tap_page.php'
+      URL     = 'http://www.macsindustrial.com/tap_page.php'
+      ADDRESS = '312 Central Ave SE, Minneapolis, MN 55414'
 
       def get_list
         build_list
@@ -9,6 +10,10 @@ module BeerList
 
       def url
         URL
+      end
+
+      def address
+        ADDRESS
       end
 
       private
