@@ -106,6 +106,16 @@ module BeerList
       end
     end
 
+    def respond_to_missing?(method, include_private=false)
+      class_name = method.to_s.split('_').map(&:capitalize).join
+      !!get_class_with_namespace(class_name) || super
+    end if RUBY_VERSION >= '1.9'
+
+    def respond_to?(method, include_private=false)
+      class_name = method.to_s.split('_').map(&:capitalize).join
+      !!get_class_with_namespace(class_name) || super
+    end if RUBY_VERSION < '1.9'
+
     def is_establishment?(class_name)
       BeerList::Establishments.constants.include? class_name.to_sym
     end
