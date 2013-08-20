@@ -22,7 +22,7 @@ module BeerList
 
     def send_json(url, json)
       url = "http://#{url}" unless url.start_with? 'http'
-      agent.post url, "{\"beer_list\": #{json}}", 'Content-Type' => 'application/json'
+      agent.post url, %({"beer_list": #{json}}), 'Content-Type' => 'application/json'
       true
     end
 
