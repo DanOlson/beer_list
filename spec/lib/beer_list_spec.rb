@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+module BeerList::Establishments
+  class MuddyWaters < Establishment; end
+  class ThreeSquares < Establishment; end
+end
+
 describe BeerList do
   let(:establishment){ BeerList::Establishments::ThreeSquares.new }
   let(:scraper){ stub }
@@ -146,6 +151,12 @@ describe BeerList do
         scraper.should_receive(:send_json).with *expected
         BeerList.send_lists url
       end
+    end
+  end
+
+  describe '.establishment_instances' do
+    it 'returns an array of establishment instances' do
+      BeerList.establishment_instances.first.should be_a(BeerList::Establishments::MuddyWaters)
     end
   end
 end

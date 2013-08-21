@@ -82,7 +82,17 @@ module BeerList
       @scraper ||= Scraper.instance
     end
 
+    def establishment_instances
+      establishment_classes.map do |e|
+        get_class_with_namespace e
+      end.map &:new
+    end
+
     private
+
+    def establishment_classes
+      BeerList::Establishments.constants.reject { |c| c == :Establishment }
+    end
 
     def update_necessary?
       !@lists || !establishments_eq_lists?
@@ -117,7 +127,7 @@ module BeerList
     end if RUBY_VERSION < '1.9'
 
     def is_establishment?(class_name)
-      BeerList::Establishments.constants.include? class_name.to_sym
+      establishment_classes.include? class_name
     end
 
     def get_class_with_namespace(class_name)
