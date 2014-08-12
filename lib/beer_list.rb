@@ -14,7 +14,6 @@ module BeerList
   autoload :Establishments, 'beer_list/establishments'
 
   class << self
-
     def configure
       yield settings
       true
@@ -80,12 +79,6 @@ module BeerList
 
     def scraper
       @scraper ||= Scraper.instance
-    end
-
-    def establishment_instances
-      establishment_classes.map do |e|
-        get_class_with_namespace e
-      end.map &:new
     end
 
     private

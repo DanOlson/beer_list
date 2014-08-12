@@ -1,13 +1,15 @@
 require 'spec_helper'
 
-module BeerList::Establishments
-  class MuddyWaters < Establishment; end
-  class ThreeSquares < Establishment; end
+module BeerList
+  module Establishments
+    class MuddyWaters < Establishment; end
+    class ThreeSquares < Establishment; end
+  end
 end
 
 describe BeerList do
   let(:establishment){ BeerList::Establishments::ThreeSquares.new }
-  let(:scraper){ stub }
+  let(:scraper){ double 'scraper' }
 
   describe '.configure' do
     before do
@@ -18,17 +20,17 @@ describe BeerList do
     end
 
     it 'stores the establishments_dir' do
-      BeerList.establishments_dir.should == '/home/foo'
+      expect(BeerList.establishments_dir).to eq '/home/foo'
     end
 
     it 'stores the default_url' do
-      BeerList.default_url.should == 'http://omg.io'
+      expect(BeerList.default_url).to eq 'http://omg.io'
     end
   end
 
   describe '.establishments' do
     it 'returns an array' do
-      BeerList.establishments.should be_an_instance_of Array
+      expect(BeerList.establishments).to be_an_instance_of Array
     end
   end
 
@@ -41,23 +43,23 @@ describe BeerList do
 
     it 'appends to establishments' do
       BeerList.add_establishment establishment
-      BeerList.establishments.should include establishment
+      expect(BeerList.establishments).to include establishment
     end
 
     it 'accepts multiple establishments' do
       BeerList.add_establishment establishment, muddy_waters
-      BeerList.establishments.size.should == 2
+      expect(BeerList.establishments.size).to eq 2
     end
 
     it 'rejects invalid input' do
       BeerList.add_establishment muddy_waters, Object.new
-      BeerList.establishments.size.should == 1
+      expect(BeerList.establishments.size).to eq 1
     end
 
     it 'can be called multiple times' do
       BeerList.add_establishment muddy_waters
       BeerList.add_establishment establishment
-      BeerList.establishments.size.should == 2
+      expect(BeerList.establishments.size).to eq 2
     end
   end
 
@@ -66,7 +68,7 @@ describe BeerList do
     shared_examples_for 'clear_establishments!' do
       it 'should empty the collection' do
         BeerList.clear_establishments!
-        BeerList.establishments.should be_empty
+        expect(BeerList.establishments).to be_empty
       end
     end
 
@@ -95,23 +97,24 @@ describe BeerList do
       let(:list){ BeerList::List.new listable: establishment, array: [] }
 
       before do
-        BeerList.stub(:establishments){ [establishment] }
-        BeerList.stub(:update_necessary?){ true }
-        BeerList.stub(:scraper){ scraper }
-        scraper.should_receive(:beer_list).with(establishment){ list }
+        allow(BeerList).to receive(:establishments){ [establishment] }
+        allow(BeerList).to receive(:update_necessary?){ true }
+        allow(BeerList).to receive(:scraper){ scraper }
+        expect(scraper).to receive(:beer_list).with(establishment){ list }
       end
 
       it 'returns an array of lists' do
-        BeerList.lists.all?{ |l| l.is_a? BeerList::List }.should be_true
+        expect(BeerList.lists.all?{ |l| l.is_a? BeerList::List }).to eq true
       end
 
       it 'contains lists for the registered establishments' do
-        BeerList.lists.first.listable.should == establishment
+        listable = BeerList.lists.first.listable
+        expect(listable).to eq establishment
       end
 
       describe '.lists_as_hash' do
         it 'returns an array of hashes' do
-          BeerList.lists_as_hash.all? { |l| l.is_a? Hash }.should be_true
+          expect(BeerList.lists_as_hash.all? { |l| l.is_a? Hash }).to eq true
         end
       end
 
@@ -130,33 +133,27 @@ describe BeerList do
     let(:expected){ [url, [json]] }
 
     before do
-      BeerList.stub(:scraper).and_return scraper
-      list.stub(:to_json).and_return json
+      allow(BeerList).to receive(:scraper){ scraper }
+      allow(list).to receive(:to_json){ json }
     end
 
     describe '.send_list' do
       it 'delegates to the scraper' do
-        scraper.should_receive(:send_json).with *expected
+        expect(scraper).to receive(:send_json).with *expected
         BeerList.send_list list, url
       end
     end
 
     describe '.send_lists' do
       before do
-        BeerList.stub(:lists).and_return [list]
-        list.stub(:to_hash).and_return({ foo: 'bar' })
+        allow(BeerList).to receive(:lists){ [list] }
+        allow(list).to receive(:to_hash){ { foo: 'bar' } }
       end
 
       it 'delegates to the scraper' do
-        scraper.should_receive(:send_json).with *expected
+        expect(scraper).to receive(:send_json).with *expected
         BeerList.send_lists url
       end
-    end
-  end
-
-  describe '.establishment_instances' do
-    it 'returns an array of establishment instances' do
-      BeerList.establishment_instances.first.should be_a(BeerList::Establishments::MuddyWaters)
     end
   end
 end

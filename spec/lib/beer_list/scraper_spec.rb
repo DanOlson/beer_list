@@ -4,12 +4,12 @@ module BeerList
   describe Scraper do
     let(:establishment){ BeerList::Establishments::Establishment.new }
     let(:scraper){ Scraper.instance }
-    let(:agent){ stub }
+    let(:agent){ double 'agent' }
     let(:url){ "http://omg.io" }
 
     before do
-      scraper.stub(:agent){ agent }
-      agent.stub(:user_agent_alias=)
+      allow(scraper).to receive(:agent){ agent }
+      allow(agent).to receive(:user_agent_alias=)
     end
 
     describe '#send_json' do
@@ -18,43 +18,43 @@ module BeerList
 
       it 'posts to the given url with namespaced parameters' do
         expected_json = "{\"beer_list\": #{json}}"
-        agent.should_receive(:post).with url, expected_json, headers
+        expect(agent).to receive(:post).with url, expected_json, headers
         scraper.send_json url, json
       end
 
       it 'prepends a scheme if one is not given' do
         expected_json = "{\"beer_list\": #{json}}"
         no_scheme_url = 'www.foobar.com'
-        agent.should_receive(:post).with "http://#{no_scheme_url}", expected_json, headers
+        expect(agent).to receive(:post).with "http://#{no_scheme_url}", expected_json, headers
         scraper.send_json no_scheme_url, json
       end
     end
 
     describe '#beer_list' do
       before do
-        scraper.should_receive(:visit).with establishment
+        expect(scraper).to receive(:visit).with establishment
       end
 
       it "calls the establishment's #list method" do
-        establishment.should_receive :list
+        expect(establishment).to receive :list
         scraper.beer_list establishment
       end
     end
 
     describe '#visit' do
       before do
-        establishment.stub(:url){ url }
-        establishment.stub(:list)
+        allow(establishment).to receive(:url){ url }
+        allow(establishment).to receive(:list)
       end
 
       it "visits the establishment's url" do
-        agent.should_receive(:get).with(url){ 'the page' }
+        expect(agent).to receive(:get).with(url){ 'the page' }
         scraper.beer_list establishment
       end
 
       it "assigns to establishment.page" do
-        agent.stub(:get){ 'the page' }
-        establishment.should_receive(:page=).with 'the page'
+        allow(agent).to receive(:get){ 'the page' }
+        expect(establishment).to receive(:page=).with 'the page'
         scraper.beer_list establishment
       end
     end
