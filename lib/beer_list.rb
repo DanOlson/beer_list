@@ -14,7 +14,6 @@ module BeerList
   autoload :Establishments, 'beer_list/establishments'
 
   class << self
-
     def configure
       yield settings
       true
@@ -30,15 +29,6 @@ module BeerList
 
     def establishments_dir
       settings.establishments_dir
-    end
-
-    ### DEPRECATED ###
-    def establishments_dir=(directory)
-      puts <<-dep
-        BeerList.establishments_dir= is deprecated and will be removed.
-        Please use BeerList.configure instead
-      dep
-      settings.establishments_dir = directory
     end
 
     def establishments
@@ -67,20 +57,18 @@ module BeerList
     end
 
     def lists_as_hash
-      lists.inject({}) do |hsh, list|
-        hsh.merge! list.to_hash
-      end
+      lists.map &:to_hash
     end
 
     def lists_as_json
-      lists_as_hash.to_json
+      lists.map &:to_json
     end
 
     def send_list(list, url=nil)
       url ||= default_url
       raise NoUrlError unless url
       raise NotAListError unless list.is_a? BeerList::List
-      scraper.send_json url, list.to_json
+      scraper.send_json url, [list.to_json]
     end
 
     def send_lists(url=nil)
@@ -95,6 +83,10 @@ module BeerList
 
     private
 
+    def establishment_classes
+      BeerList::Establishments.constants.reject { |c| c == :Establishment }
+    end
+
     def update_necessary?
       !@lists || !establishments_eq_lists?
     end
@@ -104,8 +96,8 @@ module BeerList
     end
 
     def establishments_eq_lists?
-      list_names = @lists.map(&:establishment)
-      establishments.map(&:short_class_name).all? { |name| list_names.include? name }
+      list_names = @lists.map { |list| list.listable_name }
+      establishments.map(&:name).all? { |name| list_names.include? name }
     end
 
     def method_missing(method, *args, &block)
@@ -117,8 +109,18 @@ module BeerList
       end
     end
 
+    def respond_to_missing?(method, include_private=false)
+      class_name = method.to_s.split('_').map(&:capitalize).join
+      !!get_class_with_namespace(class_name) || super
+    end if RUBY_VERSION >= '1.9'
+
+    def respond_to?(method, include_private=false)
+      class_name = method.to_s.split('_').map(&:capitalize).join
+      !!get_class_with_namespace(class_name) || super
+    end if RUBY_VERSION < '1.9'
+
     def is_establishment?(class_name)
-      BeerList::Establishments.constants.include? class_name.to_sym
+      establishment_classes.include? class_name
     end
 
     def get_class_with_namespace(class_name)

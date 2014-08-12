@@ -2,31 +2,33 @@ require 'spec_helper'
 
 module BeerList
   describe List do
-    let(:est_name){ 'MuddyWaters' }
-    let(:list){ List.new array: [], establishment: est_name }
+    let(:listable) do
+      double('listable', name: 'Applebirds', address: '123 Fake St', url: 'example.com')
+    end
+    let(:list){ List.new array: ['item'], listable: listable }
 
-    it 'knows its establishent' do
-      list.establishment.should == est_name
+    it 'knows its listable' do
+      expect(list.listable).to eq listable
     end
 
     describe '#to_hash' do
-      it 'hashes its establishment name with its content' do
-        expected = { est_name => [] }
-        list.to_hash.should == expected
+      it 'hashes its listable info with its list' do
+        expected = { name: 'Applebirds', address: '123 Fake St', url: 'example.com', list: ['item']}
+        expect(list.to_hash).to eq expected
       end
     end
 
     describe '#to_json' do
       it 'returns the list as json' do
-        expected = "{\"MuddyWaters\":[]}"
-        list.to_json.should == expected
+        expected = %({"name":"Applebirds","address":"123 Fake St","url":"example.com","list":["item"]})
+        expect(list.to_json).to eq expected
       end
     end
 
     context 'when array is nil (the establishment has yet to implement #get_list)' do
-      let(:list){ List.new array: nil, establishment: est_name }
+      let(:list){ List.new array: nil, listable: listable }
 
-      it { list.should be_empty }
+      it { expect(list).to be_empty }
     end
   end
 end
