@@ -35,8 +35,7 @@ list.to_json
 
 Establishments peddle delicious beers. You're interested in which delicious beers a
 given establishment is peddling. To reconcile this situation, you need one or more 
-BeerList::Establishments. BeerList ships with a limited number of establishments, 
-but its easy to [extend BeerList](#extending-beerlist-with-more-establishments) with more.
+[establishments](#adding-establishments).
 
 First, let's try one out of the box:
 
@@ -74,7 +73,7 @@ BeerList.lists_as_json
 The Lists will be memoized until the content of BeerList.establishments changes so that
 the establishments don't have to be re-scraped each time the list is requested.
 
-### Extending BeerList with More Establishments
+### Adding Establishments
 
 BeerList includes an executable to easily create your own establishments.
 
@@ -147,7 +146,7 @@ See [Getting A List](#getting-a-list) for more details.
 
 AND...
 
-Checkout [This link](http://mechanize.rubyforge.org/) for more on Mechanize
+Checkout [this link](http://mechanize.rubyforge.org/) for more on Mechanize
 
 ### Sending Lists
 
